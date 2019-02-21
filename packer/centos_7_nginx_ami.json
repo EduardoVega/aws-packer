@@ -1,0 +1,43 @@
+{
+    "variables": {
+      "name": "{{env `AMI_NAME`}}",
+      "access_key": "{{env `ACCESS_KEY`}}",
+      "secret_key": "{{env `SECRET_KEY`}}"
+    },
+    "sensitive-variables": ["access_key", "secret_key"],
+    "builders": [{
+      "type": "amazon-ebs",
+      "access_key": "{{user `access_key`}}",
+      "secret_key":"{{user `secret_key`}}",
+      "ami_name": "{{user `name`}}",
+      "region": "us-east-1",
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+      "run_tags": {
+        "Name": "{{user `name`}}"
+      },
+      "tags": {
+        "OS_Version": "CentOS 7 (x86_64)",
+        "Base_AMI_Name": "{{ .SourceAMIName }}"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "*CentOS Linux 7 x86_64 HVM EBS*",
+          "root-device-type": "ebs"
+        },
+        "owners": ["679593333241"],
+        "most_recent": true
+      }
+    }],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": "sudo yum install -y epel-release"
+        },
+        {
+            "type": "shell",
+            "inline": ["sudo yum install -y nginx","sudo systemctl enable nginx", "sudo systemctl start nginx"]
+        }
+      ]
+  }
