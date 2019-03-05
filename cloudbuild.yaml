@@ -6,4 +6,3 @@ steps:
   - 'AMI_NAME=test'
   - 'ACCESS_KEY=test'
   - 'SECRET_KEY=test'
-  - 'TEST=test'
