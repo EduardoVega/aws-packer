@@ -1,0 +1,3 @@
+steps:
+- name: 'hashicorp/packer:light'
+  args: ['packer', '--version']
