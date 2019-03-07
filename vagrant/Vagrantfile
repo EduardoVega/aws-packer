@@ -10,9 +10,9 @@ Vagrant.configure("2") do |config|
       aws.ami = "ami-0c9a4444202e59c0f"
       aws.region = "us-east-1"
       aws.instance_type = "t2.micro"
-      aws.security_groups = "sg-01333524e64ff5215"
+      aws.security_groups = "sg-0ac866c346dd50e56"
       aws.associate_public_ip = true
-      aws.subnet_id = "subnet-bca3c586"
+      aws.subnet_id = "subnet-098bf0e8d234c4578"
       aws.tags = {
         'Type' => 'Vagrant',
       }
