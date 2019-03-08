@@ -1,2 +1,1 @@
-# aws-packer-vagrant
-AWS Packer and Vagrant 
+# AWS AMIs with packer 
