@@ -1,7 +1,27 @@
 steps:
+- name: gcr.io/cloud-builders/gsutil
+  args: ['cp', 'gs://awspackervagrant/*KEY.txt.enc', '.']
+- name: gcr.io/cloud-builders/gcloud
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=ACCESS_KEY.txt.enc
+  - --plaintext-file=ACCESS_KEY.txt
+  - --location=global
+  - --keyring=AWSKeyRing
+  - --key=AWSKey
+- name: gcr.io/cloud-builders/gcloud
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=SECRET_KEY.txt.enc
+  - --plaintext-file=SECRET_KEY.txt
+  - --location=global
+  - --keyring=AWSKeyRing
+  - --key=AWSKey
 - name: 'hashicorp/packer:light'
-  args: ['validate', 'centos_7_ami.json']
+  args: ['build', 'centos_7_ami.json']
   env:
-  - 'AMI_NAME=test'
-  - 'ACCESS_KEY=test'
-  - 'SECRET_KEY=test'
+  - 'AMI_NAME=gcloudami'
+  - 'ACCESS_KEY=$(cat ACCESS_KEY.txt)'
+  - 'SECRET_KEY=$(cat SECRET_KEY.txt)'
