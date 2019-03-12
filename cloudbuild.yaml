@@ -20,8 +20,11 @@ steps:
   - --keyring=AWSKeyRing
   - --key=AWSKey
 - name: 'hashicorp/packer:light'
-  args: ['build', 'centos_7_ami.json']
-  env:
-  - 'AMI_NAME=gcloudami'
-  - 'ACCESS_KEY=$(cat ACCESS_KEY.txt)'
-  - 'SECRET_KEY=$(cat SECRET_KEY.txt)'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+      export AMI_NAME=gcloudami
+      export ACCESS_KEY=$(cat ACCESS_KEY.txt)
+      export SECRET_KEY=$(cat SECRET_KEY.txt)
+      packer build centos_7_ami.json
