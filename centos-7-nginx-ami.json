@@ -13,6 +13,7 @@
       "region": "us-east-1",
       "instance_type": "t2.micro",
       "ssh_username": "centos",
+      "subnet_id": "subnet-05201dad0a04122e7",
       "run_tags": {
         "Name": "{{user `name`}}"
       },
@@ -22,22 +23,20 @@
       },
       "source_ami_filter": {
         "filters": {
-          "virtualization-type": "hvm",
-          "name": "*CentOS Linux 7 x86_64 HVM EBS*",
-          "root-device-type": "ebs"
+          "owner-alias": "aws-marketplace",
+          "product-code": "aw0evgkw8e5c1q413zgy5pjce",
+          "virtualization-type": "hvm"
         },
-        "owners": ["679593333241"],
+        "owners": ["aws-marketplace"],
         "most_recent": true
       }
     }],
     "provisioners": [
         {
-            "type": "shell",
-            "inline": "sudo yum install -y epel-release"
-        },
-        {
-            "type": "shell",
-            "inline": ["sudo yum install -y nginx","sudo systemctl enable nginx", "sudo systemctl start nginx"]
+          "type": "ansible",
+          "playbook_file": "../nginx-ansible/run.yaml",
+          "user": "vagrant",
+          "sftp_command": "/usr/libexec/openssh/sftp-server -e"
         }
       ]
   }
