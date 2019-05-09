@@ -35,7 +35,6 @@
         {
           "type": "ansible",
           "playbook_file": "../nginx-ansible/run.yaml",
-          "user": "vagrant",
           "sftp_command": "/usr/libexec/openssh/sftp-server -e"
         }
       ]

@@ -1,7 +1,0 @@
-steps:
-- name: 'hashicorp/packer:light'
-  args: ['validate', 'centos_7_ami.json']
-  env:
-  - 'AMI_NAME=test'
-  - 'ACCESS_KEY=test'
-  - 'SECRET_KEY=test'
