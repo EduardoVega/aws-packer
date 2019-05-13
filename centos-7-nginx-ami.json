@@ -1,6 +1,7 @@
 {
     "variables": {
       "name": "{{env `AMI_NAME`}}",
+      "subnet_id": "{{env `SUBNET_ID`}}",
       "access_key": "{{env `ACCESS_KEY`}}",
       "secret_key": "{{env `SECRET_KEY`}}"
     },
@@ -13,7 +14,7 @@
       "region": "us-east-1",
       "instance_type": "t2.micro",
       "ssh_username": "centos",
-      "subnet_id": "subnet-05201dad0a04122e7",
+      "subnet_id": "{{user `subnet_id`}}",
       "run_tags": {
         "Name": "{{user `name`}}"
       },
