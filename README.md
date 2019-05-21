@@ -66,12 +66,12 @@ This document will describe the process to create an Operating System Image usin
 4. AWS Subnet with the **auto-assign public IPv4 address** setting enabled
 
 
-### GCP Requirements
+### Google Cloud Platform
 
 1. GCP Account
 2. Follow the steps to create a service account with the required permissions to run packer (https://www.packer.io/docs/builders/googlecompute.html#running-without-a-compute-engine-service-account)
 
-### General Requirements
+### General
 
 1. Packer binary
     - [Download Packer Binary](https://www.packer.io/downloads.html)
