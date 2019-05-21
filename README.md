@@ -1,8 +1,15 @@
-# AWS AMIs with packer 
+# OS Images with Packer 
 
-This document will describe the process to create an AWS CentOS AMI using the Packer tool
+This document will describe the process to create an Operating System Image using the Packer tool
+
+## Supported Providers
+
+- Amazon Web Services
+- Google Cloud Platform
 
 ## Requirements
+
+### Amazon Web Services
 
 1. AWS Account
 2. AWS Role with the minimal set of permissions to use Packer ([Packer minimal permissions](https://www.packer.io/docs/builders/amazon.html#iam-task-or-instance-role))
@@ -57,43 +64,67 @@ This document will describe the process to create an AWS CentOS AMI using the Pa
 ```
 3. AWS User with programmatic access. Assign the AWS Role created above
 4. AWS Subnet with the **auto-assign public IPv4 address** setting enabled
-5. Packer binary
+
+
+### GCP Requirements
+
+1. GCP Account
+2. Follow the steps to create a service account with the required permissions to run packer (https://www.packer.io/docs/builders/googlecompute.html#running-without-a-compute-engine-service-account)
+
+### General Requirements
+
+1. Packer binary
     - [Download Packer Binary](https://www.packer.io/downloads.html)
-6. AWS Packer and Nginx Ansible Github repositories
-  - AWS Packer
+2. centos 7 nginx packer and nginx ansible Github repositories
 ``` bash
-git clone https://github.com/EduardoVega/aws-packer.git
-```
-  - Nginx Ansible
-```bash
+git clone https://github.com/EduardoVega/centos-7-nginx-packer.git
+
 git clone https://github.com/EduardoVega/nginx-ansible.git
 ```
 
 ## Execution
-1. Export Variables
-```bash
-export AMI_NAME=''
-export SUBNET_ID=''
-export ACCESS_KEY=''
-export SECRET_KEY=''
-```
-2. Validate Packer JSON file
-```bash
-# Navigate to the aws-packer github repo
-cd aws-packer
+1. Add and Export Variables
+    - Amazon Web Services
+      ```bash
+      bash aws-env-vars.sh
+      ```
+    - Google Cloud Platform
+      ```bash
+      bash gcp-env-vars.sh
+      ```
+2. Run and Validate Packer JSON file
 
-# Validate packer json file
-packer validate centos-7-nginx-ami.json
+    Packer supports parallel builds, so you can create the images for AWS and GCP at the same time; or you can specify the specific build you want to run
 
-```
-3. Run Packer JSON file
-```bash
-# Navigate to the aws-packer github repo
-cd aws-packer
+    - Validate
+    ```bash
+    # Navigate to the github repo
+    cd centos-7-nginx-packer
 
-# Run packer json file
-packer build centos-7-nginx-ami.json
+    # Validate packer json file (all providers)
+    packer validate centos-7-nginx.json
 
-```
+    # Validate packer json file (AWS only)
+    packer validate -only='aws' centos-7-nginx.json
+
+    # Validate packer json file (GCP only)
+    packer validate -only='gcp' centos-7-nginx.json
+
+    ```
+    - Build
+    ```bash
+    # Navigate to the github repo
+    cd centos-7-nginx-packer
+
+    # build packer json file (all providers)
+    packer build centos-7-nginx.json
+
+    # build packer json file (AWS only)
+    packer build -only='aws' centos-7-nginx.json
+
+    # build packer json file (GCP only)
+    packer build -only='gcp' centos-7-nginx.json
+
+    ```
 
 

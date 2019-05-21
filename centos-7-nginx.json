@@ -1,0 +1,58 @@
+{
+  "variables": {
+    "name": "{{env `IMAGE_NAME`}}",
+    "subnet_id": "{{env `AWS_SUBNET_ID`}}",
+    "access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "secret_key": "{{env `AWS_SECRET_KEY`}}",
+    "project_id": "{{env `GCP_PROJECT_ID`}}",
+    "account_file": "{{env `GCP_SERVICE_ACCOUNT`}}"
+  },
+  "sensitive-variables": ["access_key", "secret_key", "account_file"],
+  "builders": [
+    {
+      "name": "aws",
+      "type": "amazon-ebs",
+      "access_key": "{{user `access_key`}}",
+      "secret_key":"{{user `secret_key`}}",
+      "ami_name": "{{user `name`}}",
+      "region": "us-east-1",
+      "instance_type": "t2.micro",
+      "ssh_username": "centos",
+      "subnet_id": "{{user `subnet_id`}}",
+      "run_tags": {
+        "Name": "{{user `name`}}"
+      },
+      "tags": {
+        "OS_Version": "CentOS 7 (x86_64)",
+        "Base_AMI_Name": "{{ .SourceAMIName }}"
+      },
+      "source_ami_filter": {
+        "filters": {
+          "owner-alias": "aws-marketplace",
+          "product-code": "aw0evgkw8e5c1q413zgy5pjce",
+          "virtualization-type": "hvm"
+        },
+        "owners": ["aws-marketplace"],
+        "most_recent": true
+      }
+    },
+    {
+      "name": "gcp",
+      "type": "googlecompute",
+      "instance_name": "{{user `name`}}",
+      "image_name": "{{user `name`}}",
+      "account_file": "{{user `account_file`}}",
+      "project_id": "{{user `project_id`}}",
+      "source_image_family": "centos-7",
+      "ssh_username": "packer",
+      "zone": "us-east1-b",
+      "machine_type": "n1-standard-1"
+    }
+  ],
+  "provisioners": [
+      {
+        "type": "ansible",
+        "playbook_file": "../nginx-ansible/run.yaml",
+        "sftp_command": "/usr/libexec/openssh/sftp-server -e"
+    }]
+  }
