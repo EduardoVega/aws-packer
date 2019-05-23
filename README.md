@@ -1,13 +1,24 @@
 # OS Images with Packer 
 
-This document will describe the process to create an Operating System Image using the Packer tool
+This repository contains a Packer template to create CentOS 7 Images with Nginx
 
 ## Supported Providers
 
 - Amazon Web Services
 - Google Cloud Platform
 
-## Requirements
+## Prerequisites
+
+### General
+
+1. Packer binary
+    - [Download Packer Binary](https://www.packer.io/downloads.html)
+2. centos 7 nginx packer and nginx ansible Github repositories
+``` bash
+git clone https://github.com/EduardoVega/centos-7-nginx-packer.git
+
+git clone https://github.com/EduardoVega/nginx-ansible.git
+```
 
 ### Amazon Web Services
 
@@ -71,19 +82,8 @@ This document will describe the process to create an Operating System Image usin
 1. GCP Account
 2. Follow the steps to create a service account with the required permissions to run packer (https://www.packer.io/docs/builders/googlecompute.html#running-without-a-compute-engine-service-account)
 
-### General
-
-1. Packer binary
-    - [Download Packer Binary](https://www.packer.io/downloads.html)
-2. centos 7 nginx packer and nginx ansible Github repositories
-``` bash
-git clone https://github.com/EduardoVega/centos-7-nginx-packer.git
-
-git clone https://github.com/EduardoVega/nginx-ansible.git
-```
-
 ## Execution
-1. Add and Export Variables
+1. Set and export Environment Variables
     - Amazon Web Services
       ```bash
       bash aws-env-vars.sh
@@ -94,7 +94,7 @@ git clone https://github.com/EduardoVega/nginx-ansible.git
       ```
 2. Run and Validate Packer JSON file
 
-    Packer supports parallel builds, so you can create the images for AWS and GCP at the same time; or you can specify the specific build you want to run
+    Packer supports parallel builds, so you can create the images for AWS and GCP at the same time; or you can specify the specific builder you want to run
 
     - Validate
     ```bash
