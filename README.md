@@ -1,6 +1,6 @@
 # OS Images with Packer 
 
-This repository contains a Packer template to create CentOS 7 Images with Nginx
+This repository contains a Packer template to create an Image of CentOS 7 Images and Nginx
 
 ## Supported Providers
 
